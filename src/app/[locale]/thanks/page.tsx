@@ -14,9 +14,9 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-const spaLocations = await getListSpa();
+export default async function ThanksPage() {
+  const spaLocations = await getListSpa();
 
-export default function ThanksPage() {
   return (
     <Layout className="thank-container" spaLocations={spaLocations?.data || []}>
       <ThanksContent />
