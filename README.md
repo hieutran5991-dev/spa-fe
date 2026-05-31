@@ -59,7 +59,7 @@ Add these repository secrets:
 
 - `CLOUDFLARE_API_TOKEN` — [API token](https://dash.cloudflare.com/profile/api-tokens) with **Workers Scripts: Edit** permission
 - `CLOUDFLARE_ACCOUNT_ID` — Account ID from Cloudflare dashboard
-- `NEXT_PUBLIC_API_BASE_URL`, `API_TIMEOUT`, `NEXT_STORAGE_HOST`, `NEXT_STORAGE_PORT`, `NEXT_PUBLIC_DOMAIN_URL`
+- `NEXT_PUBLIC_API_BASE_URL`, `API_TIMEOUT`, `NEXT_STORAGE_HOST`, `NEXT_STORAGE_PORT`, `NEXT_PUBLIC_DOMAIN_URL` (same secrets as the VPS workflow — use **Secrets**, not Variables, so empty values do not override `.env.production`)
 
 Push to `main` or run the **Deploy to Cloudflare Workers** workflow manually.
 

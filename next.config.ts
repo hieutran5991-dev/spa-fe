@@ -3,19 +3,22 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin("./src/lib/i18n.ts");
 
+const storageHost = process.env.NEXT_STORAGE_HOST?.trim() || "localhost";
+const storagePort = process.env.NEXT_STORAGE_PORT?.trim() || "8000";
+
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
         protocol: "http",
-        hostname: process.env.NEXT_STORAGE_HOST!,
-        port: process.env.NEXT_STORAGE_PORT!,
+        hostname: storageHost,
+        port: storagePort,
         pathname: "/storage/**",
       },
       {
         protocol: "https",
-        hostname: process.env.NEXT_STORAGE_HOST!,
-        port: process.env.NEXT_STORAGE_PORT!,
+        hostname: storageHost,
+        port: storagePort,
         pathname: "/storage/**",
       },
     ],
