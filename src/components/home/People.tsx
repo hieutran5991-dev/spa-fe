@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
@@ -122,35 +122,26 @@ const testimonials = [
   },
 ];
 
-const swiperConfig = {
-  slidesPerView: 1,
-  spaceBetween: 20,
-  loop: true,
-  autoplay: {
-    delay: 5000,
-    disableOnInteraction: false,
-  },
-  pagination: {
-    clickable: true,
-    dynamicBullets: true,
-  },
-  breakpoints: {
-    768: {
-      slidesPerView: 2,
-      spaceBetween: 30,
-    },
-    1024: {
-      slidesPerView: 3,
-      spaceBetween: 40,
-    },
-  },
-};
-
 const People: React.FC = () => {
   const tCommon = useTranslations("common" as NamespaceKeys<string, string>);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [autoplayEnabled, setAutoplayEnabled] = useState(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setAutoplayEnabled(entry.isIntersecting),
+      { rootMargin: "100px", threshold: 0.1 }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div className="s sH s5">
+    <div className="s sH s5" ref={sectionRef}>
       <div className="container">
         <div className="s_h">
           <h2 className="s_t">{tCommon("testimonials.title")}</h2>
@@ -160,16 +151,25 @@ const People: React.FC = () => {
         <div className="s5_m">
           <div className="s5_mw">
             <Swiper
-              slidesPerView={swiperConfig.slidesPerView}
-              spaceBetween={swiperConfig.spaceBetween}
-              loop={swiperConfig.loop}
-              autoplay={swiperConfig.autoplay}
-              pagination={swiperConfig.pagination}
-              breakpoints={swiperConfig.breakpoints}
+              slidesPerView={1}
+              spaceBetween={20}
+              loop={false}
+              rewind
+              watchSlidesProgress
+              autoplay={
+                autoplayEnabled
+                  ? { delay: 5000, disableOnInteraction: false }
+                  : false
+              }
+              pagination={{ clickable: true, dynamicBullets: true }}
+              breakpoints={{
+                768: { slidesPerView: 2, spaceBetween: 30 },
+                1024: { slidesPerView: 3, spaceBetween: 40 },
+              }}
               modules={[Pagination, Autoplay]}
               className="s5_sw"
             >
-              {testimonials.map((testimonial) => (
+              {testimonials.map((testimonial, index) => (
                 <SwiperSlide key={testimonial.id}>
                   <div className="s5_i">
                     <div className="s5_iw">
@@ -179,6 +179,8 @@ const People: React.FC = () => {
                           alt={testimonial.name}
                           width={380}
                           height={300}
+                          loading={index < 3 ? "eager" : "lazy"}
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 380px"
                         />
                       </div>
 
@@ -215,6 +217,7 @@ const People: React.FC = () => {
                             alt="View on google maps"
                             width={100}
                             height={20}
+                            loading="lazy"
                             className="tw:mx-auto"
                           />
                         </a>

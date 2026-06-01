@@ -48,7 +48,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ booking_now?: string }>;
+}) {
+  const { booking_now } = await searchParams;
+  const isBookingNow = booking_now !== "menu";
+
   const spaLocationRes = await getListSpa();
   const spaLocations = spaLocationRes?.data || [];
 
@@ -58,7 +65,11 @@ export default async function Home() {
   return (
     <>
       <Layout className="home-container" spaLocations={spaLocations}>
-        <HomeContent spaLocations={spaLocations} products={products} />
+        <HomeContent
+          spaLocations={spaLocations}
+          products={products}
+          isBookingNow={isBookingNow}
+        />
       </Layout>
 
       {/* JSON-LD: LocalBusiness (Spa) */}

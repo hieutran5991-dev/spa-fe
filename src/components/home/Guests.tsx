@@ -52,7 +52,7 @@ const Guests: React.FC = () => {
 				</div>
 
 				<div className="s6_m">
-					{guestPhotos.map((photo) => (
+					{guestPhotos.map((photo, index) => (
 						<Link
 							key={photo.id}
 							href={photo.instagramUrl}
@@ -65,6 +65,8 @@ const Guests: React.FC = () => {
 								alt={photo.alt}
 								width={300}
 								height={300}
+								loading={index < 2 ? 'eager' : 'lazy'}
+								sizes="(max-width: 768px) 50vw, 300px"
 								className="guest-photo"
 							/>
 							<span className="s6_a fa fa-instagram"></span>

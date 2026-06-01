@@ -18,19 +18,12 @@ interface BookingFormProps {
 const BookingForm = ({ spaLocations, children, selectedService, id }: BookingFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [_error, _setError] = useState<string | null>(null)
-  const [selectedSpa, setSelectedSpa] = useState('')
-  const [selectedSpaId, setSelectedSpaId] = useState<string | number>('')
+  const [selectedSpa, setSelectedSpa] = useState(() => spaLocations[0]?.name ?? '')
+  const [selectedSpaId, setSelectedSpaId] = useState<string | number>(() => spaLocations[0]?.id ?? '')
   const [showSpaDropdown, setShowSpaDropdown] = useState(false)
   const [selectedDate, setSelectedDate] = useState<string>('')
 
   const tBooking = useTranslations('booking' as NamespaceKeys<string, string>)
-
-  useEffect(() => {
-    if(spaLocations?.length) {
-      setSelectedSpaId(spaLocations[0].id)
-      setSelectedSpa(spaLocations[0].name)
-    }
-  }, [spaLocations])
 
   // Listen to date changes
   useEffect(() => {
