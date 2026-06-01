@@ -8,8 +8,9 @@ const storagePort = process.env.NEXT_STORAGE_PORT?.trim() || "8000";
 
 const nextConfig: NextConfig = {
   images: {
-    loader: "custom",
-    loaderFile: "./image-loader.ts",
+    // Serve /public and remote images directly — works on Cloudflare Workers
+    // without /_next/image or /cdn-cgi/image (both fail without extra CF setup).
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "http",
@@ -24,8 +25,6 @@ const nextConfig: NextConfig = {
         pathname: "/storage/**",
       },
     ],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   eslint: {
     ignoreDuringBuilds: true,
