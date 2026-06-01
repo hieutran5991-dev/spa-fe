@@ -65,3 +65,14 @@ Push to `main` or run the **Deploy to Cloudflare Workers** workflow manually.
 
 Worker name is configured in `wrangler.jsonc` (`oriented-spa`).
 
+### Images on Cloudflare
+
+Production uses a custom loader (`image-loader.ts`) with Cloudflare Image Resizing (`/cdn-cgi/image/...`), not `/_next/image`.
+
+In the Cloudflare dashboard for your zone (e.g. `senspadanang.com`):
+
+1. Go to **Images** → **Transformations** (or **Speed** → **Image Resizing**).
+2. Enable transformations and allow your origins (same zone + API storage host if used).
+
+If images still fail after deploy, enable **Resize images from any origin** for the zone during testing.
+

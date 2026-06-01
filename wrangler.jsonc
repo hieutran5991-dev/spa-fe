@@ -16,8 +16,5 @@
       "binding": "WORKER_SELF_REFERENCE",
       "service": "oriented-spa"
     }
-  ],
-  "images": {
-    "binding": "IMAGES"
-  }
+  ]
 }
